@@ -101,15 +101,11 @@
 		9D04674B263E232300E0533F /* Trivia */ = {
 			isa = PBXGroup;
 			children = (
-				9D0556BA263F0991000E4E31 /* Model */,
-				9D04674C263E232300E0533F /* AppDelegate.swift */,
-				9D04674E263E232300E0533F /* SceneDelegate.swift */,
-				9D046750263E232300E0533F /* ViewController.swift */,
-				9D046752263E232300E0533F /* Main.storyboard */,
-				9D046758263E232400E0533F /* Assets.xcassets */,
-				9D04675A263E232400E0533F /* LaunchScreen.storyboard */,
+				9D0556C1263F0BB5000E4E31 /* Components */,
+				9D0556C0263F0B5B000E4E31 /* Application */,
+				9D0556BF263F0B4A000E4E31 /* Controller */,
+				9D0556BE263F0B40000E4E31 /* View */,
 				9D04675D263E232400E0533F /* Info.plist */,
-				9D046755263E232300E0533F /* Trivia.xcdatamodeld */,
 			);
 			path = Trivia;
 			sourceTree = "<group>";
@@ -132,11 +128,39 @@
 			path = TriviaUITests;
 			sourceTree = "<group>";
 		};
-		9D0556BA263F0991000E4E31 /* Model */ = {
+		9D0556BE263F0B40000E4E31 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9D04675A263E232400E0533F /* LaunchScreen.storyboard */,
+				9D046752263E232300E0533F /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9D0556BF263F0B4A000E4E31 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				9D046750263E232300E0533F /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		9D0556C0263F0B5B000E4E31 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				9D04674C263E232300E0533F /* AppDelegate.swift */,
+				9D04674E263E232300E0533F /* SceneDelegate.swift */,
+				9D046758263E232400E0533F /* Assets.xcassets */,
+				9D046755263E232300E0533F /* Trivia.xcdatamodeld */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		9D0556C1263F0BB5000E4E31 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = Model;
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
