@@ -10,7 +10,7 @@ import UIKit
 final class ViewController: UIViewController {
 	
 	@IBAction private func playButtonPressed(_ sender: Any) {
-		let questionViewController = UINib(nibName: "QuestionViewController", bundle: nil).instantiate(withOwner: self, options: nil).first as! QuestionViewController
+		let questionViewController = QuestionViewController()
 		self.navigationController?.pushViewController(questionViewController, animated: true)
 		
 	}
