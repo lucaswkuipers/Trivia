@@ -25,7 +25,7 @@ class QuestionsProvider {
 	
 	static func getQuestions() -> [Question] {
 		guard let data = readLocalFile(with: .success) else { return [] }
-		let (responseCode, questions) = parse(jsonData: data)
+		let (_, questions) = parse(jsonData: data)
 		
 		return questions
 	}
