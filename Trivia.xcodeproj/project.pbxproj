@@ -18,8 +18,10 @@
 		9D046772263E232400E0533F /* TriviaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D046771263E232400E0533F /* TriviaUITests.swift */; };
 		9D4142E22641B64000622407 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4142E02641B64000622407 /* QuestionViewController.swift */; };
 		9D4142E32641B64000622407 /* QuestionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D4142E12641B64000622407 /* QuestionViewController.xib */; };
-		9DC273282642F935002ED725 /* AlternativeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC273262642F935002ED725 /* AlternativeTableViewCell.swift */; };
-		9DC273292642F935002ED725 /* AlternativeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DC273272642F935002ED725 /* AlternativeTableViewCell.xib */; };
+		9D7D4C012643704E00F56659 /* QuestionsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7D4C002643704E00F56659 /* QuestionsProvider.swift */; };
+		9DC2733126435405002ED725 /* success_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 9DC2733026435405002ED725 /* success_response.json */; };
+		9DC27336264354F9002ED725 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC27335264354F9002ED725 /* Response.swift */; };
+		9DC2733E26436D07002ED725 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC2733D26436D07002ED725 /* Question.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,8 +59,10 @@
 		9D046773263E232400E0533F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D4142E02641B64000622407 /* QuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
 		9D4142E12641B64000622407 /* QuestionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionViewController.xib; sourceTree = "<group>"; };
-		9DC273262642F935002ED725 /* AlternativeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternativeTableViewCell.swift; sourceTree = "<group>"; };
-		9DC273272642F935002ED725 /* AlternativeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlternativeTableViewCell.xib; sourceTree = "<group>"; };
+		9D7D4C002643704E00F56659 /* QuestionsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsProvider.swift; sourceTree = "<group>"; };
+		9DC2733026435405002ED725 /* success_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = success_response.json; sourceTree = "<group>"; };
+		9DC27335264354F9002ED725 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		9DC2733D26436D07002ED725 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +116,7 @@
 				9D04675D263E232400E0533F /* Info.plist */,
 				9D568506263F331C009C1DDB /* Application */,
 				9D568505263F3309009C1DDB /* Components */,
+				9DC2733026435405002ED725 /* success_response.json */,
 			);
 			path = Trivia;
 			sourceTree = "<group>";
@@ -155,7 +160,6 @@
 			isa = PBXGroup;
 			children = (
 				9D4142E12641B64000622407 /* QuestionViewController.xib */,
-				9DC273272642F935002ED725 /* AlternativeTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -164,7 +168,6 @@
 			isa = PBXGroup;
 			children = (
 				9D4142E02641B64000622407 /* QuestionViewController.swift */,
-				9DC273262642F935002ED725 /* AlternativeTableViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -182,7 +185,7 @@
 			children = (
 				9D04674C263E232300E0533F /* AppDelegate.swift */,
 				9D04674E263E232300E0533F /* SceneDelegate.swift */,
-				9D56850D263F337A009C1DDB /* Provider */,
+				9D56850D263F337A009C1DDB /* Service */,
 				9D568508263F335E009C1DDB /* Model */,
 				9D568509263F3365009C1DDB /* View */,
 				9D56850A263F336A009C1DDB /* ViewModel */,
@@ -197,6 +200,8 @@
 		9D568508263F335E009C1DDB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9DC27335264354F9002ED725 /* Response.swift */,
+				9DC2733D26436D07002ED725 /* Question.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -232,11 +237,12 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
-		9D56850D263F337A009C1DDB /* Provider */ = {
+		9D56850D263F337A009C1DDB /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				9D7D4C002643704E00F56659 /* QuestionsProvider.swift */,
 			);
-			path = Provider;
+			path = Service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -346,7 +352,7 @@
 				9D046759263E232400E0533F /* Assets.xcassets in Resources */,
 				9D4142E32641B64000622407 /* QuestionViewController.xib in Resources */,
 				9D046754263E232300E0533F /* Main.storyboard in Resources */,
-				9DC273292642F935002ED725 /* AlternativeTableViewCell.xib in Resources */,
+				9DC2733126435405002ED725 /* success_response.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,11 +377,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D7D4C012643704E00F56659 /* QuestionsProvider.swift in Sources */,
 				9D046751263E232300E0533F /* ViewController.swift in Sources */,
-				9DC273282642F935002ED725 /* AlternativeTableViewCell.swift in Sources */,
 				9D4142E22641B64000622407 /* QuestionViewController.swift in Sources */,
+				9DC27336264354F9002ED725 /* Response.swift in Sources */,
 				9D04674D263E232300E0533F /* AppDelegate.swift in Sources */,
 				9D046757263E232300E0533F /* Trivia.xcdatamodeld in Sources */,
+				9DC2733E26436D07002ED725 /* Question.swift in Sources */,
 				9D04674F263E232300E0533F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,7 +8,6 @@
 import UIKit
 
 // MARK: - Constants
-
 struct QuestionLayoutConstants {
 	static let cornerRadius: CGFloat = 10.0
 }
@@ -20,99 +19,114 @@ struct TriviaAppUIConstants {
 
 
 // MARK: - View Models
-
 struct QuestionViewModel{
 	
 	let questionText: String
 	let difficulty: String
-	let correct_answer: String
-	let all_answers: [String]
+	let correctAnswer: String
+	let allAnswers: [String]
 	
 	
-	public init(questionText: String, difficulty: String, correct_answer: String,  incorrect_answers: [String]) {
-		self.questionText = questionText
-		self.difficulty = difficulty
-		self.correct_answer = correct_answer
-		self.all_answers = incorrect_answers + [correct_answer]
+	public init(questionObj: Question) {
+		self.questionText = questionObj.question
+		self.difficulty = questionObj.difficulty.rawValue
+		self.correctAnswer = questionObj.correctAnswer
+		self.allAnswers = questionObj.incorrectAnswers + [correctAnswer]
 	}
 }
 
 
 // MARK: - Controller
-
 final class QuestionViewController: UIViewController {
 	
 	// MARK: - IBOutlets
-	
 	@IBOutlet weak var questionContainer: UIView!
 	@IBOutlet weak var questionLabel: UILabel!
 	@IBOutlet weak var stack: UIStackView!
 	
 	
 	// MARK: - Global Variables and Constants
-	
 	var questionViewModel: QuestionViewModel!
-
-	
-	// MARK: - View Cycle
-	
-    override func viewDidLoad() {
-        super.viewDidLoad()
-		setupUI()
-    }
-	
+	var currentIndex: Int!
 	
 	// MARK: - Init
-	
-	public init(){
+	public init(currentIndex: Int){
 		super.init(nibName: "QuestionViewController", bundle: Bundle(for: QuestionViewController.self))
-		self.questionViewModel = fetchData()
+		self.questionViewModel = fetchData(currentIndex: currentIndex)
+		self.currentIndex = currentIndex
 	}
 	required init(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
 	
-	// MARK: - Functionality
+	// MARK: - View Cycles
+    override func viewDidLoad() {
+        super.viewDidLoad()
+		setupUI()
+    }
 	
-	func fetchData() -> QuestionViewModel {
+	
+	// MARK: - Functionality
+	func setupUI() {
+		setupQuestion()
+		setupAlternatives()
+	}
+	
+	func fetchData(currentIndex: Int) -> QuestionViewModel {
 		
-		let questionText = "What is my name? What is my name? What is my name? What is my name?"
-		let difficulty = "Hard"
-		let correct_answer = "Lucas"
-		let incorrect_answers = ["Carlos", "Galdinho", "Coppertone"]
+		let allQuestions = QuestionsProvider.getQuestions()
+		print(allQuestions)
 		
-		let question = QuestionViewModel(questionText: questionText, difficulty: difficulty, correct_answer: correct_answer, incorrect_answers: incorrect_answers)
+		let questionSelected = allQuestions[currentIndex]
 		
-		return question
+		let questionVM = QuestionViewModel(questionObj: questionSelected)
+		
+		return questionVM
 	}
 	func setupQuestion() {
+		
+		setupBackground()
+		setupDynamicData()
+	}
+	func setupBackground() {
 		questionContainer.layer.cornerRadius = QuestionLayoutConstants.cornerRadius
-		questionLabel.text = questionViewModel.questionText
+	}
+	func setupDynamicData() {
+		let questionText = questionViewModel.questionText
+		questionLabel.text = questionText
 	}
 	
 	@objc func buttonClicked(_ sender: UIButton) {
 		
-		let correct = "Lucas"
+		let correctAnswer = questionViewModel.correctAnswer
 
-		guard let name = sender.titleLabel?.text else {
+		guard let alternativeAnswer = sender.titleLabel?.text else {
 			return
 		}
-		
-		if name == correct {
+		if alternativeAnswer == correctAnswer {
 			sender.backgroundColor = .green
 		} else {
 			sender.backgroundColor = .red
 		}
 		
-		print(sender.titleLabel?.text)
+		goToNextQuestion()
+	}
+	
+	func goToNextQuestion() {
+		let questionViewController = QuestionViewController(currentIndex: currentIndex + 1)
+		self.navigationController?.pushViewController(questionViewController, animated: true)
 	}
 	
 	func setupAlternatives() {
 		
-		let names = ["Lucas", "Coppertone", "Galdinho", "Carlos"]
+		let alternativesReturned = questionViewModel.allAnswers
 		
-		for name in names {
+		var alternatives = alternativesReturned
+		
+		alternatives.shuffle()
+		
+		for alternativeText in alternatives {
 			
 			let container = UIView()
 			
@@ -120,7 +134,7 @@ final class QuestionViewController: UIViewController {
 			button.backgroundColor = UIColor(named: "AccentColor")
 			button.setTitleColor(.label, for: .normal)
 			button.titleLabel?.font = TriviaAppUIConstants.alternativeFont
-			button.setTitle(name, for: .normal)
+			button.setTitle(alternativeText, for: .normal)
 			button.addTarget(self, action: #selector(buttonClicked(_ :)), for: .touchUpInside)
 
 			container.addSubview(button)
@@ -135,9 +149,5 @@ final class QuestionViewController: UIViewController {
 			
 			stack.addArrangedSubview(container)
 		}
-	}
-	func setupUI() {
-		setupQuestion()
-		setupAlternatives()
 	}
 }
