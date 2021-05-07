@@ -22,14 +22,12 @@ class QuestionsProvider {
 			}
 		}
 	}
-	
 	static func getQuestions() -> [Question] {
 		guard let data = readLocalFile(with: .success) else { return [] }
 		let (_, questions) = parse(jsonData: data)
 		
 		return questions
 	}
-	
 	private static func readLocalFile(with responseType: ResponseType) -> Data? {
 		do {
 			if let bundlePath = Bundle.main.path(forResource: responseType.fileName,
@@ -40,18 +38,11 @@ class QuestionsProvider {
 		} catch {
 			print(error)
 		}
-		
 		return nil
 	}
 	private static func parse(jsonData: Data) -> (Int, [Question]) {
-		
 		do {
-			let decodedData = try JSONDecoder().decode(Response.self,
-													   from: jsonData)
-			
-			print("ResponseCode: ", decodedData.responseCode)
-			print("Count of results: ", decodedData.results.count)
-			print("===================================")
+			let decodedData = try JSONDecoder().decode(Response.self, from: jsonData)
 			return (0, decodedData.results)
 		} catch {
 			print("decode error")

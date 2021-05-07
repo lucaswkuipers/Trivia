@@ -188,8 +188,6 @@
 				9D56850D263F337A009C1DDB /* Service */,
 				9D568508263F335E009C1DDB /* Model */,
 				9D568509263F3365009C1DDB /* View */,
-				9D56850A263F336A009C1DDB /* ViewModel */,
-				9D56850C263F3374009C1DDB /* Coordinator */,
 				9D56850B263F336E009C1DDB /* Controller */,
 				9D046758263E232400E0533F /* Assets.xcassets */,
 				9D046755263E232300E0533F /* Trivia.xcdatamodeld */,
@@ -215,26 +213,12 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		9D56850A263F336A009C1DDB /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
 		9D56850B263F336E009C1DDB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				9D046750263E232300E0533F /* ViewController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		9D56850C263F3374009C1DDB /* Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		9D56850D263F337A009C1DDB /* Service */ = {
@@ -570,7 +554,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lucaswkuipers.Trivia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -589,7 +573,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lucaswkuipers.Trivia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -72,15 +72,15 @@ final class QuestionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		setupUI()
-		removePreviousViewControllersFromNavigation()
     }
 	
 	override func viewDidAppear(_ animated: Bool) {
-		self.navigationController?.viewControllers = [self]
+		removePreviousViewControllersFromNavigation()
 	}
 	
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
+		removeSelfFromNavigation()
 	}
 	
 	
@@ -102,6 +102,10 @@ final class QuestionViewController: UIViewController {
 			self.navigationController?.viewControllers = [self]
 		}
 	}
+	func removeSelfFromNavigation() {
+		self.navigationController?.viewControllers.removeFirst()
+	}
+	
 	func setupQuestion() {
 		setupBackground()
 		setupDynamicData()
@@ -114,52 +118,50 @@ final class QuestionViewController: UIViewController {
 		questionLabel.text = questionText
 	}
 	@objc func buttonClicked(_ sender: UIButton) {
-		
 		let allButtons = getOtherButtonsInStackView(sender: sender)
-		
 		let correctAnswer = questionViewModel.correctAnswer
 		let givenAnswer = sender.titleLabel?.text != nil ? sender.titleLabel!.text! : ""
 		
+		var color: UIColor?
+		
 		if givenAnswer == correctAnswer {
-			playerGotAnswerRight(on: sender, using: givenAnswer)
+			playerGotAnswerRight(on: sender, using: givenAnswer, from: allButtons)
+			color = .green
 		} else {
 			playerGotAnswerWrong(on: sender, using: givenAnswer, whenItWas: correctAnswer, from: allButtons)
+			color = .red
 		}
-	
 		disableButtons()
-		waitForTap()
+		waitForTap(with: color!)
 	}
 	func disableButtons() {
 		self.stack.isUserInteractionEnabled = false
 	}
-	func waitForTap() {
-		
-		presentOverlayWithDelay()
-		
+	func waitForTap(with color: UIColor) {
+		presentOverlayWithDelay(with: color)
+//		presentOverlay(with: color)
 	}
-	func presentOverlayWithDelay() {
+	func presentOverlayWithDelay(with color: UIColor) {
 		DispatchQueue.main.asyncAfter(deadline: .now() + QuestionInteractionConstants.delayToPresentOverlayAfterAnswer) {
-			self.presentOverlay()
+			self.presentOverlay(with: color)
 		  }
 	}
 	
-	func presentOverlay() {
+	func presentOverlay(with color: UIColor) {
 		let waitForClickButton = UIButton.init(type: .system)
-		waitForClickButton.backgroundColor = .clear //UIColor(named: "AccentColor")
+		waitForClickButton.backgroundColor = color.withAlphaComponent(0.1)
 		waitForClickButton.setTitleColor(.label, for: .normal)
 		waitForClickButton.titleLabel?.font = TriviaAppUIConstants.alternativeFont
 		waitForClickButton.setTitle("Tap anywhere to continue", for: .normal)
-		
+		waitForClickButton.isMultipleTouchEnabled = false
+		waitForClickButton.isExclusiveTouch = true
+				
+		view.addSubview(waitForClickButton)
 		// Adding event listener of click to button
 		waitForClickButton.addTarget(self, action: #selector(self.waitButtonClicked(_ :)), for: .touchUpInside)
-		
-		view.addSubview(waitForClickButton)
-		
-//		waitForClickButton.alpha = 0.3
-		
 		// Enables auto layout for our button
 		waitForClickButton.translatesAutoresizingMaskIntoConstraints = false
-		
+		//Setting constraints
 		waitForClickButton.topAnchor.constraint(equalTo: view.topAnchor, constant: QuestionLayoutConstants.overlayDistanceToViewTop).isActive = true
 		waitForClickButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: QuestionLayoutConstants.overlayDistanceToViewBottom).isActive = true
 		waitForClickButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: QuestionLayoutConstants.overlayDistanceToViewLeft).isActive = true
@@ -167,7 +169,11 @@ final class QuestionViewController: UIViewController {
 	}
 	
 	@objc func waitButtonClicked(_ sender: UIButton){
+		disableOverlayButton(sender)
 		goToNextQuestion()
+	}
+	func disableOverlayButton(_ sender: UIButton) {
+		sender.isEnabled = false
 	}
 	func getOtherButtonsInStackView(sender: UIButton) -> [UIButton] {
 		let grandparent = sender.superview?.superview
@@ -179,22 +185,30 @@ final class QuestionViewController: UIViewController {
 		}
 		return cousins
 	}
-	func playerGotAnswerRight(on sender: UIButton, using givenAnswer: String) {
+	func playerGotAnswerRight(on sender: UIButton, using givenAnswer: String, from allButtons: [UIButton]) {
 		changeColor(of: sender, to: .green)
 		updateScore()
+		highlightAnswerCorresponding(to: givenAnswer, from: allButtons, and: givenAnswer)
 		print("Congratulations! Your answer was right! \(givenAnswer)")
 	}
 	func playerGotAnswerWrong(on sender: UIButton, using givenAnswer: String, whenItWas correctAnswer: String, from allButtons: [UIButton]) {
 		changeColor(of: sender, to: .red)
 		updateScore()
-		highlightAnswerCorresponding(to: correctAnswer, from: allButtons)
+		highlightAnswerCorresponding(to: correctAnswer, from: allButtons, and: givenAnswer)
 		print("Sorry, you said \(givenAnswer), but correct answer was \(correctAnswer)")
 	}
-	func highlightAnswerCorresponding(to correctAnswer: String, from allButtons: [UIButton]) {
+	func highlightAnswerCorresponding(to correctAnswer: String, from allButtons: [UIButton], and givenAnswer: String) {
 		for button in allButtons {
-			if button.titleLabel?.text == correctAnswer {
+			
+			guard let textInButton = button.titleLabel?.text else { return }
+			
+			if textInButton == givenAnswer {
+				print("do nothing")
+			} else if textInButton == correctAnswer {
 				button.backgroundColor = .yellow
 				button.setTitleColor(.black, for: .normal)
+			} else {
+				button.backgroundColor = .gray
 			}
 		}
 	}
@@ -231,9 +245,14 @@ final class QuestionViewController: UIViewController {
 			// Adding event listener of click to button
 			button.addTarget(self, action: #selector(buttonClicked(_ :)), for: .touchUpInside)
 
+			// Only allow one button to be selected at once
+//			button.isMultipleTouchEnabled = false
+			button.isExclusiveTouch = true
+			
 			// Enables auto layout for our button
 			button.translatesAutoresizingMaskIntoConstraints = false
 			
+			// Setting constraints for button
 			button.topAnchor.constraint(equalTo: container.topAnchor, constant: 5).isActive = true
 			button.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -5).isActive = true
 			button.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 20).isActive = true

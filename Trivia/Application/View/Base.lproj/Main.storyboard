@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bKl-LG-yGc">
-                                <rect key="frame" x="97" y="243.5" width="126" height="81"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="50"/>
                                 <state key="normal" title="PLAY"/>
@@ -31,8 +31,10 @@
                         <color key="backgroundColor" name="BackgroundColor"/>
                         <color key="tintColor" systemColor="labelColor"/>
                         <constraints>
-                            <constraint firstItem="bKl-LG-yGc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="IgW-gS-Is3"/>
-                            <constraint firstItem="bKl-LG-yGc" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="ahf-iA-N2S"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="bKl-LG-yGc" secondAttribute="bottom" id="6NQ-31-OLs"/>
+                            <constraint firstItem="bKl-LG-yGc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="eXJ-gW-gXp"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bKl-LG-yGc" secondAttribute="trailing" id="pk3-Qw-rJh"/>
+                            <constraint firstItem="bKl-LG-yGc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="tsl-lK-OhX"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ceE-bL-0qh"/>
